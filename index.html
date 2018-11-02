@@ -56,14 +56,14 @@
 			frame.removeClass('opened');
 		}
 	});
-	$(document).on('click', '.info_video', function(){
+	$(document).on('click', '#video_info', function(){
 		var frame = $(this).parents('.frame');
-		$('.frame-you-2').addClass('opened')
+		$('.frame-you-2').addClass('opened');
 	});
 
-	$(document).on('click', '.info_text', function(){
+	$(document).on('click', '#text_info', function(){
 		var frame = $(this).parents('.frame');
-		$('.frame-you-1').addClass('opened')
+		$('.frame-you-1').addClass('opened');
 	});
 </script>
 <style>
@@ -74,7 +74,7 @@
 	.frame {
 		display: none;
 		position: fixed;
-		z-index: 10000;
+		z-index: 10001;
 		left: 0;
 		top: 0;
 		bottom: 0;
@@ -117,6 +117,7 @@
 		align-items: center;
 		justify-content: center;
 		margin: auto;
+		z-index: 10000;
 	}
 	.info.active {
 		bottom: 10px;
