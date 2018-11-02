@@ -19,7 +19,6 @@
 				//document.getElementById(markerId + '-t').classList.add('active');
 				if (markerId == 'marker-barcode-4'){
 					document.getElementById('video_info').classList.add('active');
-					$("#video")[0].src += "&autoplay=1";
 				}
 				if (markerId == 'marker-barcode-1'){
 					document.getElementById('text_info').classList.add('active');
@@ -45,7 +44,11 @@
 				if (el.object3D.visible == true && ev.detail.cursorEl) {
 					if (!frame.hasClass('opened')){
 						frame.addClass('opened');
+						if (name == 'you-2'){
+							$("#video").attr('src', $("#video").attr('src') + '&autoplay=1');
+						}
 					}
+
 				}
 			})
 		}
@@ -64,7 +67,7 @@
 	$(document).on('click', '#video_info', function(){
 		var frame = $(this).parents('.frame');
 		$('.frame-you-2').addClass('opened');
-		$("#video")[0].src += "&autoplay=1";
+		$("#video").attr('src', $("#video").attr('src') + '&autoplay=1');
 	});
 
 	$(document).on('click', '#text_info', function(){
