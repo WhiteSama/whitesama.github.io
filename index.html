@@ -56,6 +56,15 @@
 			frame.removeClass('opened');
 		}
 	});
+	$(document).on('click', '.info_video', function(){
+		var frame = $(this).parents('.frame');
+		$('.frame-you-2').addClass('opened')
+	});
+
+	$(document).on('click', '.info_text', function(){
+		var frame = $(this).parents('.frame');
+		$('.frame-you-1').addClass('opened')
+	});
 </script>
 <style>
 	#panel p.active {
