@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<script
+	src="https://code.jquery.com/jquery-3.3.1.js"
+	integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+	crossorigin="anonymous"></script>
+<script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+<!-- include aframe-ar.js -->
+<script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.6.2/aframe/build/aframe-ar.js"></script>
+<script src="https://raw.githubusercontent.com/ngokevin/kframe/master/components/look-at/dist/aframe-look-at-component.js"></script>
+
+<script>
+	AFRAME.registerComponent('registerevents', {
+		init: function () {
+			var marker = this.el;
+			marker.addEventListener('markerFound', function () {
+				var markerId = marker.id;
+				console.log('markerFound', markerId);
+				//document.getElementById('title').innerText = markerId + 'found';
+				//document.getElementById(markerId + '-t').classList.add('active');
+				if (markerId == 'marker-barcode-4'){
+					document.getElementById('video_info').classList.add('active');
+				}
+				if (markerId == 'marker-barcode-1'){
+					document.getElementById('text_info').classList.add('active');
+				}
+			});
+			marker.addEventListener('markerLost', function () {
+				var markerId = marker.id;
+				//document.getElementById('title').innerText = markerId + 'lost';
+				//document.getElementById(markerId + '-t').classList.remove('active');
+				document.getElementById('video_info').classList.remove('active');
+				document.getElementById('text_info').classList.remove('active');
+			});
+		}
+	});
+
+	AFRAME.registerComponent('markerhandler', {
+
+		init: function () {
+			var el = this.el,
+				name = el.attributes.name.nodeValue,
+				frame = $('.frame-' + name);
+			el.addEventListener('click', function (ev) {
+				if (el.object3D.visible == true && ev.detail.cursorEl) {
+					if (!frame.hasClass('opened')){
+						frame.addClass('opened');
+					}
+				}
+			})
+		}
+	});
+
+	$(document).on('click', '.frame .close', function(){
+		var frame = $(this).parents('.frame');
+		if (frame.hasClass('opened')){
+			frame.removeClass('opened');
+		}
+	});
+</script>
+<style>
+	#panel p.active {
+		color: red;
+	}
+
+	.frame {
+		display: none;
+		position: fixed;
+		z-index: 10000;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		margin: auto;
+		width: 100vw;
+		height: 100vh;
+		background: #fff;
+	}
+	.frame .close {
+		position: fixed;
+		right: 20px;
+		top: 20px;
+		background: #000;
+		color: #fff;
+		font-size: 24px;
+		z-index: 10;
+		display: flex;
+		align-items: center;
+		width: 30px;
+		height: 30px;
+		justify-content: center;
+		text-align: center;
+	}
+	.frame.opened {
+		display: block;
+	}
+	.info {
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: -80px;
+		transition: .3s;
+		visibility: hidden;
+		background: #fff;
+		padding: 10px 15px;
+		height: 60px;
+		width: 150px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: auto;
+	}
+	.info.active {
+		bottom: 10px;
+		visibility: visible;
+	}
+	.info_text {
+		left: 10px;
+		right: auto;
+	}
+	.info_video {
+		right: 10px;
+		left: auto;
+	}
+</style>
+<body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
+<div style='position: fixed; top: 10px; width:100%; text-align: center; z-index: 1;'>
+	<!--<h1 id="title"
+		style="position: fixed; left: 0; right: 0;text-align: center; z-index: 1000; color: #fff; text-shadow: 1px 1px 1px #000">
+		TEst</h1>-->
+
+	<!--<div id="panel"
+		 style="position: fixed; display: flex; justify-content: space-around; top: 50px; left: 0; right: 0;text-align: center; z-index: 1000; background: #fff;">
+		<p id="marker-barcode-1-t">Showing id 1</p>
+
+		<p id="marker-barcode-2-t">Showing id 2</p>
+
+		<p id="marker-barcode-4-t">Showing id 4</p>
+	</div>-->
+	<div id="video_info" class="info info_video">
+		<p>Кликните на иконку видео, для открытия окна с видио</p>
+	</div>
+	<div id="text_info" class="info info_text">
+		<p>Кликните на иконку додекаэдра, для открытия окна с текстом</p>
+	</div>
+	<div class="frame frame-you-1">
+		<div class="close">X</div>
+		<h2>Заголовок блока</h2>
+		<p>Зайди на sb.by/vr со своего телефона, и получи доступ к доп. материалам</p>
+		<p>Зайди на sb.by/vr со своего телефона, и получи доступ к доп. материалам</p>
+		<p>Зайди на sb.by/vr со своего телефона, и получи доступ к доп. материалам</p>
+	</div>
+	<div class="frame frame-you-2">
+		<div class="close">X</div>
+		<iframe width="100%" height="100%" src="https://www.youtube.com/embed/rBOhyUXInKo" frameborder="0"
+				allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+				allowfullscreen></iframe>
+	</div>
+	<a-scene embedded
+			 arjs='debugUIEnabled: false; sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 4x4;'
+			 style='position: fixed;z-index: 1;'>
+
+		<a-marker type='barcode' value='1' id='marker-barcode-1'  name="you-1"
+				  registerevents markerhandler emitevents="true" cursor="rayOrigin: mouse">
+			<a-dodecahedron look-at="[camera]" color="#FF926B" radius="0.8"></a-dodecahedron>
+		</a-marker>
+
+		<a-assets>
+			<a-asset-item id="animated-asset"
+						  src="https://raw.githubusercontent.com/WhiteSama/AR/master/yt.gltf"></a-asset-item>
+		</a-assets>
+		<a-marker registerevents markerhandler emitevents="true" cursor="rayOrigin: mouse" id='marker-barcode-4'
+				  name="you-2" type='barcode' value='4'>
+			<a-entity look-at="[camera]"
+				id="animated-model"
+				gltf-model="#animated-asset">
+			</a-entity>
+		</a-marker>
+
+
+		<!-- add a simple camera -->
+		<a-entity camera></a-entity>
+	</a-scene>
+
+</div>
+</body>
+</html>
