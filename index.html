@@ -19,6 +19,7 @@
 				//document.getElementById(markerId + '-t').classList.add('active');
 				if (markerId == 'marker-barcode-4'){
 					document.getElementById('video_info').classList.add('active');
+					$("#video")[0].src += "&autoplay=1";
 				}
 				if (markerId == 'marker-barcode-1'){
 					document.getElementById('text_info').classList.add('active');
@@ -54,11 +55,16 @@
 		var frame = $(this).parents('.frame');
 		if (frame.hasClass('opened')){
 			frame.removeClass('opened');
+			var videoURL = $('#video').prop('src');
+			videoURL = videoURL.replace("&autoplay=1", "");
+			$('#video').prop('src','');
+			$('#video').prop('src',videoURL);
 		}
 	});
 	$(document).on('click', '#video_info', function(){
 		var frame = $(this).parents('.frame');
 		$('.frame-you-2').addClass('opened');
+		$("#video")[0].src += "&autoplay=1";
 	});
 
 	$(document).on('click', '#text_info', function(){
@@ -91,13 +97,13 @@
 		background: #000;
 		color: #fff;
 		font-size: 24px;
-		z-index: 10;
 		display: flex;
 		align-items: center;
-		width: 30px;
-		height: 30px;
+		width: 40px;
+		height: 40px;
 		justify-content: center;
 		text-align: center;
+		z-index: 10002;
 	}
 	.frame.opened {
 		display: block;
@@ -161,7 +167,7 @@
 	</div>
 	<div class="frame frame-you-2">
 		<div class="close">X</div>
-		<iframe width="100%" height="100%" src="https://www.youtube.com/embed/rBOhyUXInKo" frameborder="0"
+		<iframe id="video" width="100%" height="100%" src="https://www.youtube.com/embed/rBOhyUXInKo" frameborder="0"
 				allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
 				allowfullscreen></iframe>
 	</div>
