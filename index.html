@@ -9,6 +9,8 @@
 <script src="https://raw.githubusercontent.com/ngokevin/kframe/master/components/look-at/dist/aframe-look-at-component.js"></script>
 
 <script>
+	document.documentElement.requestFullScreen();
+	
 	AFRAME.registerComponent('registerevents', {
 		init: function () {
 			var marker = this.el;
