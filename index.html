@@ -9,7 +9,18 @@
 <script src="https://raw.githubusercontent.com/ngokevin/kframe/master/components/look-at/dist/aframe-look-at-component.js"></script>
 
 <script>
-	document.documentElement.requestFullScreen();
+	         var element = document.body;
+                var req = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen;
+                
+                if(req)
+                    req.call(element);
+                else
+                {
+                    var wscript = new ActiveXObject("Wscript.shell");
+                    wscript.SendKeys("{F11}");
+                }
+                
+                return false;
 	
 	AFRAME.registerComponent('registerevents', {
 		init: function () {
