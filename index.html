@@ -12,12 +12,15 @@
 	AFRAME.registerComponent('registerevents', {
 		init: function () {
 			var marker = this.el;
-			marker.addEventListener('markerFound', function () {
+				marker.addEventListener('markerFound', function () {
 				var markerId = marker.id;
 				console.log('markerFound', markerId);
 				//document.getElementById('title').innerText = markerId + 'found';
 				//document.getElementById(markerId + '-t').classList.add('active');
-				if (markerId == 'marker-barcode-4'){
+				if (markerId == 'marker-barcode-3'){
+					document.getElementById('new_info').classList.add('active');
+				}
+				if (markerId == 'marker-barcode-2'){
 					document.getElementById('video_info').classList.add('active');
 				}
 				if (markerId == 'marker-barcode-1'){
@@ -28,8 +31,15 @@
 				var markerId = marker.id;
 				//document.getElementById('title').innerText = markerId + 'lost';
 				//document.getElementById(markerId + '-t').classList.remove('active');
-				document.getElementById('video_info').classList.remove('active');
-				document.getElementById('text_info').classList.remove('active');
+				if (markerId == 'marker-barcode-3'){
+					document.getElementById('new_info').classList.remove('active');
+				}
+				if (markerId == 'marker-barcode-2'){
+					document.getElementById('video_info').classList.remove('active');
+				}
+				if (markerId == 'marker-barcode-1'){
+					document.getElementById('text_info').classList.remove('active');
+				}
 			});
 		}
 	});
@@ -63,6 +73,10 @@
 			$('#video').prop('src','');
 			$('#video').prop('src',videoURL);
 		}
+	});
+	$(document).on('click', '#new_info', function(){
+		var frame = $(this).parents('.frame');
+		$('.frame-you-1').addClass('opened');
 	});
 	$(document).on('click', '#video_info', function(){
 		var frame = $(this).parents('.frame');
@@ -140,6 +154,11 @@
 		right: 10px;
 		left: auto;
 	}
+	.info_new {
+		right: 0;
+		left: 0;
+		margin: auto;
+	}
 </style>
 <body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
 <div style='position: fixed; top: 10px; width:100%; text-align: center; z-index: 1;'>
@@ -156,21 +175,32 @@
 		<p id="marker-barcode-4-t">Showing id 4</p>
 	</div>-->
 	<div id="video_info" class="info info_video">
-		<p>Кликните на иконку видео, для открытия окна с видио</p>
+		<p>Кликните на этот текст, для открытия окна с видио</p>
 	</div>
 	<div id="text_info" class="info info_text">
-		<p>Кликните на иконку додекаэдра, для открытия окна с текстом</p>
+		<p>Кликните на этот текст, для открытия окна с текстом</p>
+	</div>
+	<div id="new_info" class="info info_new">
+		<p>Кликните на этот текст, для открытия окна с информцией</p>
 	</div>
 	<div class="frame frame-you-1">
 		<div class="close">X</div>
 		<h2>Заголовок блока</h2>
-		<p>Зайди на sb.by/vr со своего телефона, и получи доступ к доп. материалам</p>
+		<p>Зайди на sb.by/vr со своего телефона, и получи доступ к доп. материалам Зайди на sb.by/vr со своего телефона, и получи доступ к доп. материалам</p>
 		<p>Зайди на sb.by/vr со своего телефона, и получи доступ к доп. материалам</p>
 		<p>Зайди на sb.by/vr со своего телефона, и получи доступ к доп. материалам</p>
 	</div>
 	<div class="frame frame-you-2">
 		<div class="close">X</div>
 		<iframe id="video" width="100%" height="100%" src="//www.youtube.com/embed/9B7te184ZpQ?rel=0" frameborder="0" allowfullscreen></iframe>
+	</div>
+	<div class="frame frame-you-3">
+		<div class="close">X</div>
+		<h2>Зайди на sb.by/vr</h2>
+		<p>Зайди на sb.by/vr со своего телефона, и получи доступ к доп. материалам Зайди на sb.by/vr со своего телефона, и получи доступ к доп. материалам</p>
+		<p>Зайди на sb.by/vr со своего телефона, и получи доступ к доп. материалам Зайди на sb.by/vr со своего телефона, и получи доступ к доп. материалам</p>
+		<p>Зайди на sb.by/vr со своего телефона, и получи доступ к доп. материалам</p>
+		<p>Зайди на sb.by/vr со своего телефона, и получи доступ к доп. материалам</p>
 	</div>
 	<a-scene embedded
 			 arjs='debugUIEnabled: false; sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 4x4;'
@@ -180,13 +210,17 @@
 				  registerevents markerhandler emitevents="true" cursor="rayOrigin: mouse">
 			<a-dodecahedron look-at="[camera]" color="#FF926B" radius="0.8"></a-dodecahedron>
 		</a-marker>
+		<a-marker type='barcode' value='3' id='marker-barcode-3'  name="you-3"
+				  registerevents markerhandler emitevents="true" cursor="rayOrigin: mouse">
+			<a-dodecahedron look-at="[camera]" color="red" radius="0.8"></a-dodecahedron>
+		</a-marker>
 
 		<a-assets>
 			<a-asset-item id="animated-asset"
 						  src="https://raw.githubusercontent.com/WhiteSama/AR/master/te.gltf"></a-asset-item>
 		</a-assets>
-		<a-marker registerevents markerhandler emitevents="true" cursor="rayOrigin: mouse" id='marker-barcode-4'
-				  name="you-2" type='barcode' value='4'>
+		<a-marker registerevents markerhandler emitevents="true" cursor="rayOrigin: mouse" id='marker-barcode-2'
+				  name="you-2" type='barcode' value='2'>
 			<a-entity look-at="[camera]"
 				id="animated-model"
 				gltf-model="#animated-asset">
